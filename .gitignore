@@ -2,3 +2,4 @@
 myenv/
 venv/
 *.tar.gz
+*.pth
