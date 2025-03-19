@@ -8,3 +8,5 @@ xmltodict
 jupyter
 torch
 torchvision
+fastapi
+uvicorn
