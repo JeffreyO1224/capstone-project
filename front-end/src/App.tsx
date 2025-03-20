@@ -3,15 +3,22 @@ import {
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom';
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import HomePage from './pages/HomePage'
+import './App.css';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import Layout from './Layout.tsx'
 
 const routes = [{
-  path: '/',
-  element: <HomePage />
-}];
+    path: '/',
+    element: <Layout />,
+    children: [{
+      path: '/',
+      element: <HomePage />
+    }, {
+      path: '/login/',
+      element: <LoginPage />
+    }]
+}]
 
 const router = createBrowserRouter(routes);
 function App() {
