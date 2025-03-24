@@ -1,3 +1,4 @@
+
 /* USERS table for all users who are using the platform (either owners of missing pets, 
  * or users trying to help finding missing pets)
  */
