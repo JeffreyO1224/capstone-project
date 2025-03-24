@@ -39,3 +39,18 @@ VALUES ('TAMAR', 'ABELSON', 'tamar@test.com'),
 	   ('MICHAEL', 'SIMON', 'simon@test.com');
 
 SELECT * FROM users;
+SELECT * FROM users;
+
+DROP TABLE users CASCADE;
+
+CREATE TABLE users (
+	user_name VARCHAR(50) PRIMARY KEY,
+	first_name VARCHAR(50),
+	last_name VARCHAR(50),
+	email VARCHAR(255) NOT NULL UNIQUE,
+	password VARCHAR(50) NOT NULL
+);
+
+
+
+
