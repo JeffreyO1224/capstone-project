@@ -6,11 +6,13 @@ import {
 import './App.css';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import ErrorPage from './pages/ErrorPage.tsx';
 import Layout from './Layout.tsx'
 
 const routes = [{
     path: '/',
     element: <Layout />,
+    errorElement: <ErrorPage />,
     children: [{
       path: '/',
       element: <HomePage />
