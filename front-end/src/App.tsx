@@ -4,11 +4,11 @@ import {
   RouterProvider
 } from 'react-router-dom';
 import './App.css';
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import ErrorPage from './pages/ErrorPage.tsx';
+import HomePage from './pages/HomePage/HomePage.tsx';
+import LoginPage from './pages/LoginPage/LoginPage.tsx';
+import ErrorPage from './pages/ErrorPage/ErrorPage.tsx';
 import Layout from './Layout.tsx'
-import PetExplorationPage from './pages/PetExplorationPage.tsx';
+import PetExplorationPage from './pages/PetExplorationPage/PetExplorationPage.tsx';
 
 const routes = [{
     path: '/',
