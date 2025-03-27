@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import ErrorPage from './pages/ErrorPage.tsx';
 import Layout from './Layout.tsx'
+import PetExplorationPage from './pages/PetExplorationPage.tsx';
 
 const routes = [{
     path: '/',
@@ -19,6 +20,9 @@ const routes = [{
     }, {
       path: '/login/',
       element: <LoginPage />
+    },{
+      path:'/PetExplorationPage/',
+      element: <PetExplorationPage/>
     }]
 }]
 
