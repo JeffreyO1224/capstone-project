@@ -1,4 +1,4 @@
-import yippeeCat from '../assets/yippee.gif';
+import yippeeCat from '../../assets/yippee.gif';
 
 export default function LoginPage() {
     return (
