@@ -1,12 +1,8 @@
 import { useState} from 'react';
 import SearchBar from '../SearchBar/SearchBar.tsx';
 import PetGrid from '../PetGrid/PetGrid.tsx';
+import {Pet} from '../../types/pets.ts'
 
-interface Pet {
-    id: number;
-    name: string;
-    species: string;
-  }
 
 export default function PetExplorationPage(){
     //save the input from the user
@@ -16,7 +12,10 @@ export default function PetExplorationPage(){
     const pets: Pet[] = [
         { id: 1, name: 'Charlie', species: 'dog' },
         { id: 2, name: 'Dior', species: 'cat' },
-        { id: 3, name: 'Daemon', species: 'cat' }
+        { id: 3, name: 'Daemon', species: 'cat' },
+        { id: 4, name: 'Sukkar', species: 'cat' },
+        { id: 5, name: 'Fritzel', species: 'cat' },
+        { id: 6, name: 'Eurias', species: 'cat' }
       ];
     //create a new array with the provided input from the user
     const filteredPets = pets.filter(pet =>

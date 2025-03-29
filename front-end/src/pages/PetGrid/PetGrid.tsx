@@ -1,6 +1,7 @@
-import PetCard, { type Pet } from '../PetCard/PetCard';
+import PetCard from '../PetCard/PetCard';
+import {Pet} from '../../types/pets.ts'
 
-//array of type pets from petcard to contain all pets 
+//ensure the array recieved from parent explorationpage match type for Pet
 interface PetGridProps {
     pets: Pet[];
   }

@@ -1,9 +1,6 @@
 //'class' for dummy data, will adjust later and export it to the petgrid to use properties
-export interface Pet {
-    id: number;
-    name: string;
-    species: string;
-  }
+import {Pet} from '../../types/pets.ts'
+    
   //ensures that the props recieved from parents the types are all matching above Pet type we declared
   interface PetCardProps {
     pet: Pet;
