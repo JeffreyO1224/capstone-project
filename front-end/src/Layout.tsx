@@ -1,11 +1,17 @@
-import NavBar from './NavBar.tsx';
-import { Outlet } from 'react-router-dom';
+import NavBar from "./NavBar.tsx";
+import { Outlet } from "react-router-dom";
 
-export default function Layout() {
-    return (
-        <>
-            <NavBar />
-            <Outlet />
-        </>
-    );
+//define our props in typescript
+interface LayoutProps {
+  isLoggedIn: boolean;
+  logoutHandler: () => void;
+}
+
+export default function Layout({ isLoggedIn, logoutHandler }: LayoutProps) {
+  return (
+    <div>
+      <NavBar isLoggedIn={isLoggedIn} logoutHandler={logoutHandler} />
+      <Outlet />
+    </div>
+  );
 }

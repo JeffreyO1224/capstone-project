@@ -10,29 +10,38 @@ import ErrorPage from './pages/ErrorPage/ErrorPage.tsx';
 import Layout from './Layout.tsx'
 import PetExplorationPage from './pages/PetExplorationPage/PetExplorationPage.tsx';
 
-const routes = [{
-    path: '/',
-    element: <Layout />,
-    errorElement: <ErrorPage />,
-    children: [{
-      path: '/',
-      element: <HomePage />
-    }, {
-      path: '/login/',
-      element: <LoginPage />
-    },{
-      path:'/PetExplorationPage/',
-      element: <PetExplorationPage/>
-    }]
-}]
-
-const router = createBrowserRouter(routes);
 function App() {
-  const [count, setCount] = useState(0)
+  //isLoggedIn will handle really basic authentication,
+  //var is also needed to update navbar dynamically based on 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  return (
-    <RouterProvider router={router} />
-  )
+  //basic loguout handler, may be buggy with state management
+  const logoutHandler = () => {
+    setIsLoggedIn(false)
+  }
+  //rearranged router to be in our component so that we can pass props as needed
+  //previously, router was outside of app and as such our props wouldve been
+  //out of scope
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Layout 
+      isLoggedIn={isLoggedIn} 
+      logoutHandler={logoutHandler}
+    />,
+      errorElement: <ErrorPage />,
+      children: [
+        { path: '/', element: <HomePage /> },
+        { 
+          path: '/login/', 
+          element: <LoginPage setIsLoggedIn={setIsLoggedIn} /> 
+        },
+        { path: '/PetExplorationPage/', element: <PetExplorationPage /> }
+      ]
+    }
+  ]);
+
+  return <RouterProvider router={router} />;
 }
 
 export default App
