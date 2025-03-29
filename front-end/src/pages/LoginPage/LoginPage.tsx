@@ -1,6 +1,6 @@
 import yippeeCat from '../../assets/yippee.gif';
 
-export default function LoginPage() {
+export default function LoginPage({ setIsLoggedIn }) {
     return (
         <>
             <h1>This is the Login Page!!</h1>
