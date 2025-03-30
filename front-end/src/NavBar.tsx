@@ -1,13 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./NavBar.css";
-import logo from "./assets/cat-icon.png";
+import logo from "./assets/logo.png";
 
 interface NavBarProps {
   isLoggedIn: boolean;
   logoutHandler: () => void;
 }
 export default function NavBar({ isLoggedIn, logoutHandler }: NavBarProps) {
-  //may need this later for proper logout
+  //may need this later for proper logout logic
   const navigate = useNavigate();
 
   const handleLogout = () => {
