@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage/LoginPage.tsx';
 import ErrorPage from './pages/ErrorPage/ErrorPage.tsx';
 import Layout from './Layout.tsx'
 import PetExplorationPage from './pages/PetExplorationPage/PetExplorationPage.tsx';
+import MapPage from './pages/MapPage/MapPage.tsx';
 
 function App() {
   //isLoggedIn will handle really basic authentication,
@@ -36,7 +37,11 @@ function App() {
           path: '/login/', 
           element: <LoginPage setIsLoggedIn={setIsLoggedIn} /> 
         },
-        { path: '/PetExplorationPage/', element: <PetExplorationPage /> }
+        { path: '/PetExplorationPage/', element: <PetExplorationPage /> },
+        {
+          path: '/petmap/',
+          element: <MapPage />
+        }
       ]
     }
   ]);
