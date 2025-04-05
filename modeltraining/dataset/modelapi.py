@@ -5,9 +5,25 @@ from torchvision import transforms
 import torchvision.models as models
 from fastapi import FastAPI, UploadFile, File
 import torch.nn as nn
+from fastapi.middleware.cors import CORSMiddleware
 
 #initialize fastapi server
 app = FastAPI()
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+#add middleware for cross origin resource sharing (because using different ports)
+app.add_middleware(
+    CORSMiddleware,
+    #allows react frontend to communicate with fastapi
+    allow_origins=["*"], 
+    #perains to authentication(e.g.,tokens)
+    allow_credentials=True,
+    #allows usage of HTTP POST request for prediction
+    allow_methods=["*"],  
+    #allows for files to be uploaded
+    allow_headers=["*"],  
+)
 
 #need to redifine model architrcture, in order to create a prediction
 data_transforms = transforms.Compose([
@@ -28,30 +44,16 @@ class_names = [
     "Wheaten_Terrier", "Yorkshire_Terrier"
 ]
 #redifining model architecture
-model = models.resnet50(pretrained=True) 
-
-model.fc = nn.Sequential(
-    nn.Linear(model.fc.in_features, 1024),
-    nn.ReLU(),
-    nn.BatchNorm1d(1024),
-    nn.Dropout(0.5),
-    nn.Linear(1024, 512),
-    nn.ReLU(),
-    nn.BatchNorm1d(512),
-    nn.Dropout(0.5),
-    nn.Linear(512, 37)
-)
-
-model.load_state_dict(torch.load("pet_breed_classifier.pth", map_location=torch.device('cpu')))
+model = torch.load("pet_breed_classifier_full.pth", map_location = device, weights_only = False)
 #put model in evaluation mode so that we only make predictions
-model.eval() 
+model.eval()
 
 #declare request where images where will be uploaded
 @app.post("/predict/") 
 async def make_prediction(file: UploadFile = File(...)):
     image = Image.open(file.file).convert('RGB')
     image = data_transforms(image)
-    image = image.unsqueeze(0)
+    image = image.unsqueeze(0).to(device)
 
     with torch.no_grad():
         output = model(image)
