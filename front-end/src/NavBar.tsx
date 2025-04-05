@@ -42,6 +42,11 @@ export default function NavBar({ isLoggedIn, logoutHandler }: NavBarProps) {
             Explore
           </Link>
         </li>
+        <li>
+          <Link to="/petmap" className="nav-link">
+            Pet Map
+          </Link>
+        </li>
       </ul>
     </nav>
   );
