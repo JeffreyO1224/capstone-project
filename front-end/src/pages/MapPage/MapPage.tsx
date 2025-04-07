@@ -1,87 +1,114 @@
 import "leaflet/dist/leaflet.css";
-import './MapPage.css';
-import petData from './PetData.js';
-import { useState, useEffect } from 'react';
-
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMapEvent, useMap } from 'react-leaflet';
+import "./MapPage.css";
+import petData from "./PetData.js";
+import { useState, useEffect } from "react";
+import logo from "../../assets/logo.png";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMapEvents,
+  useMapEvent,
+  useMap,
+} from "react-leaflet";
 import { LatLng, Icon } from "leaflet";
 
 //Clicking on the map automatically sets the view to wherever you clicked
 function SetViewOnClick() {
-    const map = useMapEvent('click', (e) => {
-      map.setView(e.latlng, map.getZoom(), {
-        animate: true,
-      })
-    })
-  
-    return null
+  const map = useMapEvent("click", (e) => {
+    map.setView(e.latlng, map.getZoom(), {
+      animate: true,
+    });
+  });
+
+  return null;
 }
 
 function CenterOnCurrentLocation() {
-    const map = useMap();
+  const map = useMap();
 
-    map.locate();
+  map.locate();
 
-    useMapEvents({
-        locationfound(e) {
-            map.flyTo(e.latlng, map.getZoom());
-        }
-    })
+  useMapEvents({
+    locationfound(e) {
+      map.flyTo(e.latlng, map.getZoom());
+    },
+  });
 
-    return null;
+  return null;
 }
 
+const icon = new Icon({
+  iconUrl: logo,
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  className: "custom-marker",
+});
+
 const currentLocationMarkerIcon = new Icon({
-    iconUrl: '../../assets/current-location-marker.png',
-    iconSize: [38, 38] // size of the icon
+  iconUrl: "../../assets/current-location-marker.png",
+  iconSize: [38, 38], // size of the icon
 });
 
 const petLocationMarkerIcon = new Icon({
-    iconUrl: "../../assets/pet-marker-icon.png",
-    iconSize: [38, 38],
-})
+  iconUrl: "../../assets/logo.png",
+  iconSize: [38, 38],
+});
 
 function LocationMarker() {
-    const [position, setPosition] = useState<LatLng | null>(null);
+  const [position, setPosition] = useState<LatLng | null>(null);
 
-    const map = useMapEvents({
-        locationfound(e) {
-            setPosition(e.latlng)
-        },
-    });
+  const map = useMapEvents({
+    locationfound(e) {
+      setPosition(e.latlng);
+    },
+  });
 
-    return position === null ? null : 
-        <Marker position={position}>
-            <Popup>Your Location</Popup>
-        </Marker>
-    ;
+  return position === null ? null : (
+    <Marker position={position}>
+      <Popup>Your Location</Popup>
+    </Marker>
+  );
 }
 
 export default function MapPage() {
-    
-    const petMarkers = petData.map((marker) => {
-        return (
-            <Marker position={marker.lastSeen}>
-                <Popup>
-                    Name: {marker.name} <br />
-                    Species: {marker.species} <br />
-                    Owner's Name: {marker.ownerName} <br />
-                    Owner's Phone Number: {marker.phoneNumber} <br />
-                </Popup>
-            </Marker>
-        )
-    })
-
+  const petMarkers = petData.map((marker) => {
     return (
-        <MapContainer center={{lat: 40.7678, lng: -73.9645}} zoom={50} scrollWheelZoom={true} >
-            <SetViewOnClick />
-            <CenterOnCurrentLocation />
-            <TileLayer 
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      <Marker position={marker.lastSeen} icon={icon}>
+        <Popup>
+          <div className="popup-content">
+            <img
+              src={logo}
+              className="popup-image"
+              alt={`${marker.name}'s photo`}
             />
-            <LocationMarker />
-            {petMarkers}
-        </MapContainer>
+            <div className="popup-details">
+              <h3 className="popup-title">Name: {marker.name} </h3>
+              <p>Species: {marker.species} </p>
+              <p>Owner's Name: {marker.ownerName} </p>
+              <p>Owner's Phone Number: {marker.phoneNumber} </p>
+            </div>
+          </div>
+        </Popup>
+      </Marker>
     );
+  });
+
+  return (
+    <MapContainer
+      center={{ lat: 40.7678, lng: -73.9645 }}
+      zoom={50}
+      scrollWheelZoom={true}
+    >
+      <SetViewOnClick />
+      <CenterOnCurrentLocation />
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <LocationMarker />
+      {petMarkers}
+    </MapContainer>
+  );
 }
