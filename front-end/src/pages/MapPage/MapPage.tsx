@@ -25,6 +25,36 @@ function SetViewOnClick() {
   return null;
 }
 
+function CreateMarkerOnClick({ onAddMarker }) {
+  const map = useMap();
+  
+  useMapEvent("click", (e) => {
+      const newMarker = (
+          <Marker position={e.latlng} icon={icon}>
+            <Popup>
+              <div className="popup-content">
+                <img
+                  src={logo}
+                  className="popup-image"
+                  alt={`Pet's photo`}
+                />
+              </div>
+              <div className="popup-details">
+              <h3 className="popup-title">Name: {"Name"} </h3>
+                  <p>Species: {'Species'} </p>
+                  <p>Owner's Name: {'Owner Name'} </p>
+                  <p>Owner's Phone Number: {'Phone Number'} </p>
+              </div>
+            </Popup>
+          </Marker>
+        );
+      onAddMarker(newMarker);
+    }
+  );
+
+  return null;
+}
+
 function CenterOnCurrentLocation() {
   const map = useMap();
 
@@ -73,7 +103,7 @@ function LocationMarker() {
 }
 
 export default function MapPage() {
-  const petMarkers = petData.map((marker) => {
+  const [petMarkers, setPetMarkers] = useState(petData.map((marker) => {
     return (
       <Marker position={marker.lastSeen} icon={icon}>
         <Popup>
@@ -93,7 +123,7 @@ export default function MapPage() {
         </Popup>
       </Marker>
     );
-  });
+  }));
 
   return (
     <MapContainer
@@ -103,6 +133,7 @@ export default function MapPage() {
     >
       <SetViewOnClick />
       <CenterOnCurrentLocation />
+      <CreateMarkerOnClick onAddMarker={(newMarker) => setPetMarkers([...petMarkers, newMarker])} />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
