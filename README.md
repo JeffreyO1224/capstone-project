@@ -86,3 +86,6 @@ Make sure you have the following installed on your machine:
 - The model API is used for running machine learning predictions for pet images.
 
 Make sure all components (front-end, back-end, and model) are running for the application to function properly. Without a component running, the project will crash.
+- Link to Google Drive containing weights: https://drive.google.com/file/d/1xSIkE9l2Xp75aHFRORcmdjgatBMNif2c/view?usp=drive_link
+
+
