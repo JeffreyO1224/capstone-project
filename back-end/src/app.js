@@ -15,4 +15,6 @@ import predictionRoute from "./routes/predictionRoute.js"; //import defined rout
 //use our routes by attaching with app
 app.use("/predict", predictionRoute);
 
+import usersRoute from "./routes/usersRoute.js"; //route for users
+app.use('/users', usersRoute)
 export default app; //allows to export our app

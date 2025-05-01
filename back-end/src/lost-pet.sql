@@ -1,13 +1,14 @@
 
 /* USERS table for all users who are using the platform (either owners of missing pets, 
  * or users trying to help finding missing pets)
+ password was updated so that we can store hashed passwords
  */
 CREATE TABLE users (
 	user_name VARCHAR(50) PRIMARY KEY,
 	first_name VARCHAR(50),
 	last_name VARCHAR(50),
 	email VARCHAR(255) NOT NULL UNIQUE,
-	password VARCHAR(50) NOT NULL
+	password VARCHAR(100) NOT NULL 
 );
 
 /* LOST_PET table where users can post their missing pet. user_id is used as foreign key 
