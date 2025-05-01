@@ -1,4 +1,5 @@
 import app from "./app.js";
+import database from "./database.js";
 
 app.get('/hello', function(req, res) {
     res.send('Hello from Get!');
@@ -12,16 +13,6 @@ app.post('/hello', function(req, res) {
     res.send('Hello, ' + req.body.name + ' from Post!');
 });
 
-//For reference
-/*
-app.post('/api/articles/:name/like', function(req, res) {
-    const article = articleInfo.find(a => a.name === req.params.name);
-    article.upvotes += 1;
-
-    res.send('Success! The article ' + req.params.name + ' now has ' + article.likes + ' likes!');
-});
-*/
-
 app.listen(8080, function() {
-    console.log('Server is listening on port 8000');
+    console.log('Server is listening on port 8080');
 });
