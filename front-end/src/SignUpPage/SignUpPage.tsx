@@ -1,12 +1,12 @@
 import "./SignUpPage.css";
-import sugarglider from '../assets/sugarglider.png'
+import sugarglider from "../assets/sugarglider.png";
 
 export default function SignUpPage() {
   return (
     <div className="signup-container">
       <div className="signup-illustration">
         <img
-          src= {sugarglider}
+          src={sugarglider}
           alt="Flying Squirrel"
           className="signup-illustration__image"
         />
@@ -28,7 +28,6 @@ export default function SignUpPage() {
             />
           </div>
 
-          {/* First + Last Name row */}
           <div className="signup-form__row">
             <div className="signup-form__group">
               <label htmlFor="firstName" className="signup-form__label">
@@ -41,6 +40,7 @@ export default function SignUpPage() {
                 placeholder="First Name"
               />
             </div>
+            
             <div className="signup-form__group">
               <label htmlFor="lastName" className="signup-form__label">
                 Last Name
