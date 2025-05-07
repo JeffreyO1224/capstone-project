@@ -127,7 +127,7 @@ export default function MapPage() {
   ));
 
   return (
-    <div>
+    <div id='map'>
       <MapContainer center={position} zoom={50} scrollWheelZoom={true}>
         <CenterOnCurrentLocation
           setPosition={(newCoords) => setPosition(newCoords)}
