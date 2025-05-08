@@ -17,4 +17,8 @@ app.use("/predict", predictionRoute);
 
 import usersRoute from "./routes/usersRoute.js"; //route for users
 app.use('/users', usersRoute)
+
+import s3Routes from "./routes/s3Routes.js"
+app.use("/s3", s3Routes)
+
 export default app; //allows to export our app

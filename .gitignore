@@ -5,3 +5,4 @@ venv/
 *.pth
 __pycache__
 .env
+uploads/
