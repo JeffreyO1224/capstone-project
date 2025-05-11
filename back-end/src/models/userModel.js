@@ -79,7 +79,7 @@ export default class Users {
   //method to be used at login
   static async login(credentials) {
     //decalre array of key mames to check object being passed from the frontend has these key values
-    const requiredFieldsFields = ["email", "password"];
+    const requiredFields = ["email", "password"];
     //iterate trhough recieved objcet checking for the keys, through error if one is misiing
     requiredFields.forEach((field) => {
       if (!credentials.hasOwnProperty(field)) {
