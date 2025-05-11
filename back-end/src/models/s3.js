@@ -34,8 +34,10 @@ export const uploadPetImage = async (file) => {
     Key: key,
     ContentType: file.mimetype,
   };
-
-  return await s3.upload(uploadParams).promise();
+//still a promise just upload, since only need the key returned for the insertion into the database
+  await s3.upload(uploadParams).promise();
+  
+  return key;
 };
 
 export const getFileStream = (fileKey) => {
