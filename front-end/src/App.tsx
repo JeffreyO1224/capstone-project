@@ -10,8 +10,7 @@ import ErrorPage from './pages/ErrorPage/ErrorPage.tsx';
 import Layout from './Layout.tsx'
 import PetExplorationPage from './pages/PetExplorationPage/PetExplorationPage.tsx';
 import MapPage from './pages/MapPage/MapPage.tsx';
-import FormComponent from './pages/FormComponent/FormComponent.tsx';
-import SignUpPage from './SignUpPage/SignUpPage.tsx';
+import SignUpPage from './pages/SignUpPage/SignUpPage.tsx';
 
 function App() {
   //isLoggedIn will handle really basic authentication,
@@ -43,10 +42,6 @@ function App() {
         {
           path: '/petmap/',
           element: <MapPage />
-        },
-        {
-          path: '/imageupload/',
-          element: <FormComponent/>
         },
         {
           path: '/signup/',
