@@ -71,9 +71,46 @@ export default class Post {
         return convertSnakeToCamel(result.rows[0])
     }
 
-    //method to delete a pet posting, for any reason or when a pet is found
-    static async deletePetPost(){
-        console.log("ask question")
+    //method to delete a pet posting, not when 'found' tho
+    static async deletePetPost(postID){
+        if(!postID) {
+            throw `PostID not provided`;
+        }
+
+        //Delete and return result if nothing means none matched the ID 
+        const deleteQuery = 
+        `
+        DELETE FROM lost_pet WHERE post_id = $1 RETURNING *
+        `;
+
+        const result = await database.query(deleteQuery,[postID]);
+
+        if (result.rows.length === 0) {
+            throw `Post with ID ${postID} does not exist`;
+        }
+        //holds result; no need for further checking
+        return convertSnakeToCamel(result.rows[0]);
     }
 
+    //method first changes to found, but does not delete from database
+    static async statusToFound(postID){
+        if(!postID) {
+            throw `PostID not provided`;
+        }
+
+        const updateStatus = 
+        `UPDATE lost_pet
+        SET status = $1
+        WHERE post_id = $2
+        RETURNING *
+        `;
+
+        const result = await database.query(updateStatus, ['found', postID]);
+        
+        if (result.rows.length === 0) {
+            throw `Post with ID ${postID} does not exist`;
+        }
+        //holds result; no need for further checking
+        return convertSnakeToCamel(result.rows[0]);
+    }
 }
