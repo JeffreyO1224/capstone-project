@@ -1,0 +1,1 @@
+// defines combined logic that will await whats sent to tge s3 defined methods and then carry on with specific logic
