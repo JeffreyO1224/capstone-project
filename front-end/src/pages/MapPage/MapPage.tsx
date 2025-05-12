@@ -14,6 +14,11 @@ import {
 } from "react-leaflet";
 import { LatLng, Icon } from "leaflet";
 import FormComponent from "../FormComponent/FormComponent.js";
+import Modal from "react-modal";
+
+//allows our modal content to center itself and draw "attention"
+//reduicing noise and allowing the modal to not be crowded with other visuals
+Modal.setAppElement("#root");
 
 // Clicking on the map automatically sets the view to wherever you clicked
 function SetViewOnClick() {
@@ -26,28 +31,20 @@ function SetViewOnClick() {
   return null;
 }
 
-function CreateMarkerOnClick({ markerRef }) {
-  const [position, setPosition] = useState<{ lat: number; lng: number } | null>(null);
+function CreateMarkerOnClick({ setClickedPosition, setIsModalOpen }) {
+  const [position, setPosition] = useState<{ lat: number; lng: number } | null>(
+    null
+  );
 
   useMapEvents({
     click(e) {
       setPosition(e.latlng);
+      //allow our position to be used to send down the form component
+      setClickedPosition(e.latlng);
+      setIsModalOpen(true);
     },
   });
-
-  useEffect(() => {
-    if (markerRef.current) {
-      markerRef.current.openPopup();
-    }
-  }, [position]);
-
-  return position ? (
-    <Marker position={position} icon={icon} ref={markerRef}>
-      <Popup autoClose={false} closeOnClick={true}>
-        <FormComponent />
-      </Popup>
-    </Marker>
-  ) : null;
+  return position ? <Marker position={position} icon={icon}></Marker> : null;
 }
 
 function CenterOnCurrentLocation({ setPosition, setCenterFound, centerFound }) {
@@ -104,7 +101,11 @@ function LocationMarker() {
 export default function MapPage() {
   const [position, setPosition] = useState({ lat: 40.7678, lng: -73.9645 });
   const [centerFound, setCenterFound] = useState(false);
-  const markerRef = useRef(null); // ✅ useRef instead of useState for refs
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [clickedPosition, setClickedPosition] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
 
   const petMarkers = petData.map((marker, index) => (
     <Marker key={index} position={marker.lastSeen} icon={icon}>
@@ -127,22 +128,36 @@ export default function MapPage() {
   ));
 
   return (
-    <div id='map'>
-      <MapContainer center={position} zoom={50} scrollWheelZoom={true}>
-        <CenterOnCurrentLocation
-          setPosition={(newCoords) => setPosition(newCoords)}
-          setCenterFound={() => setCenterFound(true)}
-          centerFound={centerFound}
-        />
-        <SetViewOnClick />
-        <CreateMarkerOnClick markerRef={markerRef} />
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <LocationMarker />
-        {petMarkers}
-      </MapContainer>
-    </div>
+    <>
+      <div id="map">
+        <MapContainer center={position} zoom={50} scrollWheelZoom={true}>
+          <CenterOnCurrentLocation
+            setPosition={(newCoords) => setPosition(newCoords)}
+            setCenterFound={() => setCenterFound(true)}
+            centerFound={centerFound}
+          />
+          <SetViewOnClick />
+          <CreateMarkerOnClick
+            setClickedPosition={setClickedPosition}
+            setIsModalOpen={setIsModalOpen}
+          />
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <LocationMarker />
+          {petMarkers}
+        </MapContainer>
+        <Modal
+          isOpen={isModalOpen}
+          onRequestClose={() => setIsModalOpen(false)}
+          contentLabel="Report Missing Pet"
+          className="pet-modal"
+          overlayClassName="modal-overlay"
+        >
+          <FormComponent locationCoordinates = {clickedPosition} closeModal={() => setIsModalOpen(false)}/>
+        </Modal>
+      </div>
+    </>
   );
 }

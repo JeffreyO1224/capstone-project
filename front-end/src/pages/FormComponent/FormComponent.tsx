@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "./FormComponent.css";
 
-export default function FormComponent() {
+export default function FormComponent({closeModal, locationCoordinates}) {
   //for now, these will be self contained use states
   //later when we put everything together, these will be props passed down
   //from the map page to make a database post
@@ -18,6 +18,17 @@ export default function FormComponent() {
     lat: number;
     lon: number;
   } | null>(null);
+
+  //populate the coordinates with information from the map page
+  useEffect(() => {
+    if (locationCoordinates) {
+      setCoordinates({
+        lat: locationCoordinates.lat,
+        lon: locationCoordinates.lng,
+      });
+      setLocation(`Lat: ${locationCoordinates.lat.toFixed(5)}, Lon: ${locationCoordinates.lng.toFixed(5)}`);
+    }
+  }, [locationCoordinates])
 
   const handleUpload = async (file: File) => {
     try {
@@ -157,7 +168,7 @@ export default function FormComponent() {
           {error && <div className="error-message">{error}</div>}
 
           <div className="form-actions">
-            <button type="button" className="cancel-button" onClick={resetForm}>
+            <button type="button" className="cancel-button" onClick={() => { resetForm(); closeModal() }}>
               Cancel
             </button>
             <button type="submit" className="submit-button">
