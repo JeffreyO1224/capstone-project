@@ -18,7 +18,10 @@ app.use("/predict", predictionRoute);
 import usersRoute from "./routes/usersRoute.js"; //route for users
 app.use('/users', usersRoute)
 
-import s3Routes from "./routes/s3Routes.js"
+import s3Routes from "./routes/s3Routes.js";
 app.use("/s3", s3Routes)
+
+import postRoute from "./routes/postRoute.js";
+app.use("/post", postRoute)
 
 export default app; //allows to export our app

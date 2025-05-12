@@ -3,7 +3,7 @@ import { convertSnakeToCamel } from "../utils/formatters.js";
 
 export default class Post {
     //expects the s3 image upload key and user info to match the insertion into database
-    static async lostPetPost(imageKey, credentials){
+    static async createPetPost(imageKey, credentials){
         //only necessary expected fields
         const requiredFields = [
             "user_name",
@@ -18,9 +18,9 @@ export default class Post {
 
         //check not empty:
         requiredFields.forEach((field) => {
-        if (!credentials.hasOwnProperty(field)) {
-            throw `Missing ${field} in request body`;
-        }
+            if (!(field in credentials)) {
+                throw `Missing ${field} in request body`;
+            }
         });
 
         //plainly insert into database using the username since a lost pet and a user are linked by username
@@ -73,7 +73,7 @@ export default class Post {
 
     //method to delete a pet posting, for any reason or when a pet is found
     static async deletePetPost(){
-        console.log("ask question");
+        console.log("ask question")
     }
 
 }
