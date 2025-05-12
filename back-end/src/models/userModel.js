@@ -26,7 +26,7 @@ export default class Users {
     const lowercasedEmail = credentials.email.toLowerCase();
     //check for unacceptable format i.e., not first character of provided email
     if (credentials.email.indexOf("@") <= 0) {
-      throw "Invalid email";
+      throw 'Invalid email';
     }
 
     //call method to get passed email to check if provided email already exists in DB
@@ -109,7 +109,7 @@ export default class Users {
   static async fetchUserByEmail(email) {
     //throw an error if there is no email
     if (!email) {
-      throw "No email provided";
+      throw 'No email provided';
     }
     //select from the table the user where the email matches the input
     const query = `SELECT * FROM users WHERE email = $1`;
@@ -125,7 +125,7 @@ export default class Users {
   static async fetchUserByUsername(username) {
     //throw an error if no username is provided
     if (!username) {
-      throw "No username provided";
+      throw 'No username provided';
     }
 
     //select from the users table the the user that matches the username
