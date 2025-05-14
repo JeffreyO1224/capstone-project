@@ -4,3 +4,8 @@ export interface Pet {
     name: string;
     species: string;
   }
+
+export interface User {
+  email: string;
+  userName: string;
+}
