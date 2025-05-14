@@ -1,18 +1,22 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "./App"; // Using context from App.tsx
 import "./NavBar.css";
 import logo from "./assets/logo.png";
 
-interface NavBarProps {
-  isLoggedIn: boolean;
-  logoutHandler: () => void;
-}
-export default function NavBar({ isLoggedIn, logoutHandler }: NavBarProps) {
+export default function NavBar() {
   //may need this later for proper logout logic
+  //^^ using now to navigate after logout
   const navigate = useNavigate();
+  const auth = useContext(AuthContext);
+  if (!auth) throw new Error("navbar cant reach auth");
 
+  const { isLoggedIn, logout } = auth;
+  //use the app's definition of logging out for correct logout functionality
+  //also take back to the login page
   const handleLogout = () => {
-    logoutHandler();
-    navigate("/");
+    logout();
+    navigate("/login");
   };
 
   return (
