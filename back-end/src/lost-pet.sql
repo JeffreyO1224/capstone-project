@@ -37,3 +37,11 @@ CREATE TABLE pet_sight (
     image_url TEXT,
     FOREIGN KEY (post_id) REFERENCES lost_pet(post_id) ON DELETE CASCADE
 );
+
+ALTER TABLE lost_pet
+ADD COLUMN latitude DOUBLE PRECISION,
+ADD COLUMN longitude DOUBLE PRECISION;
+
+ALTER TABLE pet_sight
+ADD COLUMN latitude DOUBLE PRECISION,
+ADD COLUMN longitude DOUBLE PRECISION;
