@@ -23,8 +23,8 @@ export default class Post {
     });
 
     //plainly insert into database using the username since a lost pet and a user are linked by username
-    const query = `INSERT INTO lost_pet(user_name, pet_name, location, image_url)
-        VALUES($1,$2,$3,$4)
+    const query = `INSERT INTO lost_pet(user_name, pet_name, location, image_url, latitude, longitude, breed)
+        VALUES($1,$2,$3,$4,$5,$6,$7)
         RETURNING *
         `;
 
@@ -33,6 +33,9 @@ export default class Post {
       credentials.pet_name,
       credentials.location,
       imageKey,
+      credentials.latitude,
+      credentials.longitude,
+      credentials.breed,
     ];
 
     const result = await database.query(query, values);
