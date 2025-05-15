@@ -128,7 +128,7 @@ export default function MapPage() {
     const imgUrl = `http://localhost:8080/s3/image/${post.imageUrl}`;
 
     return (
-    <Marker key={index} position={{ lat: 40.7678, lng: -73.9645 }} icon={icon}>
+    <Marker key={index} position={{ lat: post.latitude, lng: post.longitude }} icon={icon}>
       <Popup>
         <div className="popup-content">
           <img

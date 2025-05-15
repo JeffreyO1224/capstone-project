@@ -50,6 +50,14 @@ CREATE TABLE IF NOT EXISTS pet_sight (
     image_url TEXT,
     FOREIGN KEY (post_id) REFERENCES lost_pet(post_id) ON DELETE CASCADE
 );
+
+ALTER TABLE lost_pet
+ADD COLUMN IF NOT EXISTS latitude DOUBLE PRECISION,
+ADD COLUMN IF NOT EXISTS longitude DOUBLE PRECISION;
+
+ALTER TABLE pet_sight
+ADD COLUMN IF NOT EXISTS latitude DOUBLE PRECISION,
+ADD COLUMN IF NOT EXISTS longitude DOUBLE PRECISION;
 `;
 
 //connect to the data explicitly and also ensure that we are connected to the database

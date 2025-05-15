@@ -98,6 +98,8 @@ export default function FormComponent({closeModal, locationCoordinates}) {
       formData.append("breed", breed);
       formData.append("location", location);
       formData.append("user_name", userName );
+      formData.append("latitude", coordinates?.lat);
+      formData.append("longitude", coordinates?.lon);
 
       //Insert into database
       const response = await axios.post(
