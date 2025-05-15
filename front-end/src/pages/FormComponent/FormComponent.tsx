@@ -99,21 +99,14 @@ export default function FormComponent({closeModal, locationCoordinates}) {
       formData.append("location", location);
       formData.append("user_name", userName );
 
-      //currently just a console.log to ensure everything is working as expected
+      //Insert into database
       const response = await axios.post(
         "http://localhost:8080/post/createPost",
         formData
       );
 
-      // if (!response) {
-      //   const errorData = await response.json();
-      //   throw new Error(errorData.error || "Failed to create report.");
-      // }
-
       //const result = await response.json();
       console.log("Successfully submitted");
-      
-      console.log(formData);
       setError("");
       resetForm();
     } catch (err) {

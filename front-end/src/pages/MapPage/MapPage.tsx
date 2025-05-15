@@ -1,7 +1,9 @@
 import "leaflet/dist/leaflet.css";
 import "./MapPage.css";
 import petData from "./PetData.js";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from '../../App';
+import axios from "axios";
 import logo from "../../assets/logo.png";
 import {
   MapContainer,
@@ -106,7 +108,20 @@ export default function MapPage() {
     lat: number;
     lng: number;
   } | null>(null);
+  const [posts, setPosts] = useState(null);
 
+  useEffect(() => {
+    const retrieveAllPets = async () => {
+      try {
+        const { data } = await axios.get("http://localhost:8080/post/");
+        setPosts(data.posts);
+      } catch (err) {
+        console.error("Failed to fetch posts:", err);
+      }
+    };
+    retrieveAllPets();
+  }, []);
+  
   const petMarkers = petData.map((marker, index) => (
     <Marker key={index} position={marker.lastSeen} icon={icon}>
       <Popup>
