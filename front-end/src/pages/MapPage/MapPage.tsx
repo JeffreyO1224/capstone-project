@@ -1,7 +1,9 @@
 import "leaflet/dist/leaflet.css";
 import "./MapPage.css";
 import petData from "./PetData.js";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from '../../App';
+import axios from "axios";
 import logo from "../../assets/logo.png";
 import {
   MapContainer,
@@ -106,26 +108,44 @@ export default function MapPage() {
     lat: number;
     lng: number;
   } | null>(null);
+  const [posts, setPosts] = useState(null);
 
-  const petMarkers = petData.map((marker, index) => (
-    <Marker key={index} position={marker.lastSeen} icon={icon}>
+  useEffect(() => {
+    const retrieveAllPets = async () => {
+      try {
+        const { data } = await axios.get("http://localhost:8080/post/");
+        setPosts(data.posts);
+      } catch (err) {
+        console.error("Failed to fetch posts:", err);
+      }
+    };
+    retrieveAllPets();
+  }, []);
+  
+  const petMarkers = posts ? posts.map((post, index) => {
+    // const img = axios.get(`https://localhost:8080/s3/image/${post.imageUrl}`);
+    // console.log(img);
+    const imgUrl = `http://localhost:8080/s3/image/${post.imageUrl}`;
+
+    return (
+    <Marker key={index} position={{ lat: post.latitude, lng: post.longitude }} icon={icon}>
       <Popup>
         <div className="popup-content">
           <img
-            src={logo}
+            src={imgUrl}
             className="popup-image"
-            alt={`${marker.name}'s photo`}
+            alt={`${post.petName}'s photo`}
           />
           <div className="popup-details">
-            <h3 className="popup-title">Name: {marker.name} </h3>
-            <p>Species: {marker.species} </p>
-            <p>Owner's Name: {marker.ownerName} </p>
-            <p>Owner's Phone Number: {marker.phoneNumber} </p>
+            <h3 className="popup-title">Name: {post.petName}</h3>
+            <p>Species: {post.breed}</p>
+            <p>Owner's Name: {post.userName}</p>
+            <p>Owner's Phone Number: </p>
           </div>
         </div>
       </Popup>
     </Marker>
-  ));
+  )}) : null ;
 
   return (
     <>
