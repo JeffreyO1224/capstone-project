@@ -36,9 +36,9 @@ useEffect(() => {
 }, [retrievedPets]);
 
 //filter the pets using the searched term
-// const filteredPets = retrievedPets.filter((pet) =>
-// pet.name.toLowerCase().includes(searchTerm.toLowerCase())
-// );
+const filteredPets = retrievedPets.filter((pet) =>
+pet.petName.toLowerCase().includes(searchTerm.toLowerCase())
+);
 
 if (error) return <div>{error}</div>;
     return (
@@ -48,10 +48,13 @@ if (error) return <div>{error}</div>;
         gap: '20px' 
       }}>
         {/* iterate through pets in the pets array */}
-        {/* {filteredPets.map((pet) => (
+        {filteredPets.map((pet) => (
             // call PetCard component to display the information and pass the pet to decompose
-          <PetCard key={pet.id} pet={pet} />
-        ))} */}
+          <PetCard 
+          key={pet.postId} 
+          pet={pet} 
+          />
+        ))}
       </div>
     );
   }

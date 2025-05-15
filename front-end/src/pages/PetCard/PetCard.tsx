@@ -5,8 +5,8 @@ import {Pet} from '../../types/pets.ts'
   interface PetCardProps {
     pet: Pet;
   }
-  
   export default function PetCard({ pet }: PetCardProps) {
+    let imageKey = `http://localhost:8080/s3/image/${pet.imageUrl}`
     return (
       <div style={{ 
         margin: '10px', 
@@ -15,8 +15,22 @@ import {Pet} from '../../types/pets.ts'
         borderRadius: '8px' 
       }}>
         {/* display relevant information */}
-        <h3>{pet.name}</h3>
-        <p>Species: {pet.species}</p>
+        {imageKey ? (
+        <img 
+          src={imageKey} 
+          alt={pet.petName} 
+          style={{ 
+            width: '100%', 
+            height: '200px', 
+            objectFit: 'cover', 
+            borderRadius: '8px', 
+            marginTop: '10px' 
+          }} 
+        />
+      ) : (
+        <p>No image available</p>
+      )} 
+      <h3 style={{ margin: '0', textAlign: 'center' }}>{pet.petName}</h3>
       </div>
     );
   }
