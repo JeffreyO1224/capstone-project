@@ -122,25 +122,29 @@ export default function MapPage() {
     retrieveAllPets();
   }, []);
   
-  const petMarkers = petData.map((marker, index) => (
-    <Marker key={index} position={marker.lastSeen} icon={icon}>
+  const petMarkers = posts ? posts.map((post, index) => {
+    // const img = axios.get(`https://localhost:8080/s3/image/${post.imageUrl}`);
+    // console.log(img);
+
+    return (
+    <Marker key={index} position={{ lat: 40.7678, lng: -73.9645 }} icon={icon}>
       <Popup>
         <div className="popup-content">
           <img
             src={logo}
             className="popup-image"
-            alt={`${marker.name}'s photo`}
+            alt={`${post.petName}'s photo`}
           />
           <div className="popup-details">
-            <h3 className="popup-title">Name: {marker.name} </h3>
-            <p>Species: {marker.species} </p>
-            <p>Owner's Name: {marker.ownerName} </p>
-            <p>Owner's Phone Number: {marker.phoneNumber} </p>
+            <h3 className="popup-title">Name: {post.petName} </h3>
+            <p>Species: [Insert Species Here] </p>
+            <p>Owner's Name: {post.userName} </p>
+            <p>Owner's Phone Number: (123) 456-7890 </p>
           </div>
         </div>
       </Popup>
     </Marker>
-  ));
+  )}) : null ;
 
   return (
     <>
