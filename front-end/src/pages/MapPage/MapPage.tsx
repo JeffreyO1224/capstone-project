@@ -125,13 +125,14 @@ export default function MapPage() {
   const petMarkers = posts ? posts.map((post, index) => {
     // const img = axios.get(`https://localhost:8080/s3/image/${post.imageUrl}`);
     // console.log(img);
+    const imgUrl = `http://localhost:8080/s3/image/${post.imageUrl}`;
 
     return (
     <Marker key={index} position={{ lat: 40.7678, lng: -73.9645 }} icon={icon}>
       <Popup>
         <div className="popup-content">
           <img
-            src={logo}
+            src={imgUrl}
             className="popup-image"
             alt={`${post.petName}'s photo`}
           />
