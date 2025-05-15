@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "react-geocode": "^2.0.1"
+  }
+}

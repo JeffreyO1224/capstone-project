@@ -1,6 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { setKey, fromLatLng } from "react-geocode";
+import { useAuth } from "../../App";
 import "./FormComponent.css";
+
+setKey(import.meta.env.VITE_GOOGLE_API_KEY);
 
 export default function FormComponent({closeModal, locationCoordinates}) {
   //for now, these will be self contained use states
@@ -19,6 +23,9 @@ export default function FormComponent({closeModal, locationCoordinates}) {
     lon: number;
   } | null>(null);
 
+  var { userName } = useAuth().user;
+  if (!userName) userName = "";
+
   //populate the coordinates with information from the map page
   useEffect(() => {
     if (locationCoordinates) {
@@ -26,7 +33,18 @@ export default function FormComponent({closeModal, locationCoordinates}) {
         lat: locationCoordinates.lat,
         lon: locationCoordinates.lng,
       });
-      setLocation(`Lat: ${locationCoordinates.lat.toFixed(5)}, Lon: ${locationCoordinates.lng.toFixed(5)}`);
+
+      async function coordsToAddress(coordinates) {
+        if (!coordinates) return
+
+        try {
+          const { results } = await fromLatLng(coordinates.lat, coordinates.lng);
+          setLocation(results[0].formatted_address);
+        } catch {
+          console.log("Error: Something went wrong!");
+        }
+      }
+      coordsToAddress(locationCoordinates);
     }
   }, [locationCoordinates])
 
@@ -38,7 +56,7 @@ export default function FormComponent({closeModal, locationCoordinates}) {
         "http://localhost:8080/predict",
         formData
       );
-      //the preed will be prefilled based on the prediction, yet can be edited by the user if they disagree
+      //the breed will be prefilled based on the prediction, yet can be edited by the user if they disagree
       //with teh predicted breed
       setBreed(data.breed);
       setError("");
@@ -76,15 +94,30 @@ export default function FormComponent({closeModal, locationCoordinates}) {
       //create an easy obj to post to our database
       const formData = new FormData();
       formData.append("image", file);
-      formData.append("petName", petName);
+      formData.append("pet_name", petName);
       formData.append("breed", breed);
       formData.append("location", location);
+      formData.append("user_name", userName );
 
       //currently just a console.log to ensure everything is working as expected
+      const response = await axios.post(
+        "http://localhost:8080/post/createPost",
+        formData
+      );
+
+      // if (!response) {
+      //   const errorData = await response.json();
+      //   throw new Error(errorData.error || "Failed to create report.");
+      // }
+
+      //const result = await response.json();
+      console.log("Successfully submitted");
+      
       console.log(formData);
       setError("");
       resetForm();
     } catch (err) {
+      console.error(err);
       setError("Failed to submit form");
     }
   };
