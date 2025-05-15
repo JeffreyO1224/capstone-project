@@ -137,10 +137,10 @@ export default function MapPage() {
             alt={`${post.petName}'s photo`}
           />
           <div className="popup-details">
-            <h3 className="popup-title">Name: {post.petName} </h3>
-            <p>Species: [Insert Species Here] </p>
-            <p>Owner's Name: {post.userName} </p>
-            <p>Owner's Phone Number: (123) 456-7890 </p>
+            <h3 className="popup-title">Name: {post.petName}</h3>
+            <p>Species: {post.breed}</p>
+            <p>Owner's Name: {post.userName}</p>
+            <p>Owner's Phone Number: </p>
           </div>
         </div>
       </Popup>
