@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { setKey, fromLatLng } from "react-geocode";
 import "./FormComponent.css";
+
+setKey(import.meta.env.VITE_GOOGLE_API_KEY);
 
 export default function FormComponent({closeModal, locationCoordinates}) {
   //for now, these will be self contained use states
@@ -26,7 +29,18 @@ export default function FormComponent({closeModal, locationCoordinates}) {
         lat: locationCoordinates.lat,
         lon: locationCoordinates.lng,
       });
-      setLocation(`Lat: ${locationCoordinates.lat.toFixed(5)}, Lon: ${locationCoordinates.lng.toFixed(5)}`);
+
+      async function coordsToAddress(coordinates) {
+        if (!coordinates) return
+
+        try {
+          const { results } = await fromLatLng(coordinates.lat, coordinates.lng);
+          setLocation(results[0].formatted_address);
+        } catch {
+          console.log("Error: Something went wrong!");
+        }
+      }
+      coordsToAddress(locationCoordinates);
     }
   }, [locationCoordinates])
 
