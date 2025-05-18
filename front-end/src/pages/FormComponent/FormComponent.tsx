@@ -23,8 +23,8 @@ export default function FormComponent({closeModal, locationCoordinates}) {
     lon: number;
   } | null>(null);
 
-  var { userName } = useAuth().user;
-  if (!userName) userName = "";
+  if (userName) var { userName } = useAuth().user;
+  else var userName = "";
 
   //populate the coordinates with information from the map page
   useEffect(() => {
@@ -91,6 +91,11 @@ export default function FormComponent({closeModal, locationCoordinates}) {
     }
 
     try {
+      if (!userName) {
+        setError("Please log in to submit a report");
+        return;
+      }
+
       //create an easy obj to post to our database
       const formData = new FormData();
       formData.append("image", file);
