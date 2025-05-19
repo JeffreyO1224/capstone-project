@@ -1,0 +1,40 @@
+.page-container {
+  display: flex;
+  height: 80vh;
+  gap: 20px;
+  padding: 20px;
+}
+
+.left-column {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pet-image {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.right-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.top-row {
+  height: 50%;
+  border-radius: 10px;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.bottom-row {
+  flex: 1;
+  border-radius: 10px;
+  padding: 15px;
+}
