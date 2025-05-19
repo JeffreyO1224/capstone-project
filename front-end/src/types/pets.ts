@@ -12,3 +12,16 @@ export interface User {
   email: string;
   userName: string;
 }
+
+export interface PetPost {
+  postId: number;
+  userName: string;
+  petName: string;
+  location: string;
+  status: 'not found' | 'found';
+  imageUrl?: string;
+  latitude?: number;
+  longitude?: number;
+}
+
+
