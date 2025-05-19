@@ -3,7 +3,7 @@ import "./PetIndvPage.css";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { PetPost } from "../../types/pets";
-import { MapContainer } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Circle } from "react-leaflet";
 
 export default function PetIndvPage() {
   //grab the petId from the parameters (the link from the postId)
@@ -12,6 +12,9 @@ export default function PetIndvPage() {
   //save the pet post
   const [post, setPost] = useState<PetPost | null>(null);
 
+  //use the id we got from the params to send a requet to our backend
+  //which will retrieve the pet post by its id 
+  //to display the information for each pet more cleanly
   const retrievePetById = async () => {
     try {
       const response = await axios.get(`http://localhost:8080/post/${petId}`);
@@ -52,23 +55,42 @@ export default function PetIndvPage() {
 
           <div className="right-column">
             <div className="top-row">
-              <h2>{post.petName}</h2>
-              <p>
-                <strong>Posted by:</strong> {post.userName}
-              </p>
-              <p>
-                <strong>Status:</strong> {post.status}
-              </p>
-              <p>
-                <strong>Location:</strong> {post.location}
-              </p>
+              <h2>{post.petName || "Unknown Pet"}</h2>
+              <p>Posted by: {post.userName || "Unknown owner"}</p>
+              <p>Status:{post.status || "Unknown status"}</p>
+              <p>Location: {post.location || "Unknown location"}</p>
+              <p>Breed: {post.breed || "Unknown breed"}</p>
             </div>
             <div className="bottom-row">
-              <p> Map </p>
+              {post.latitude && post.longitude ? (
+                <MapContainer
+                  center={[post.latitude, post.longitude]}
+                  zoom={50}
+                  style={{ width: "100%", height: "100%" }}
+                  scrollWheelZoom={true}
+                >
+                  <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  />
+                  <Marker position={[post.latitude, post.longitude]} />
+                  <Circle
+                    center={[post.latitude, post.longitude]}
+                    radius={500} //the average lost pet gets found within 
+                    //500 meters of where they were last seen
+                    pathOptions={{ color: "blue", fillOpacity: 0.2 }}
+                  />
+                </MapContainer>
+              ) : (
+                //safely unwrap the coordinates 
+                //especially since earlier pets had no coordinates
+                <p>No coordinates available for this pet.</p>
+              )}
             </div>
           </div>
         </div>
       ) : (
+        //safely unwrap the entire post so that we dont cause page crash
         <p>Loading pet data...</p>
       )}
     </>

@@ -22,6 +22,7 @@ export interface PetPost {
   imageUrl?: string;
   latitude?: number;
   longitude?: number;
+  breed: string;
 }
 
 

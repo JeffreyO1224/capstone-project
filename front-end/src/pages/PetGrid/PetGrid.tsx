@@ -52,7 +52,7 @@ export default function PetGrid({ searchTerm }: PetGridProps) {
       {/* iterate through pets in the pets array */}
       {filteredPets.map((pet) => (
         // call PetCard component to display the information and pass the pet to decompose
-        <Link to={`${pet.postId}`}>
+        <Link to={`${pet.postId}`} style={{ textDecoration: 'none' }}>
           <PetCard key={pet.postId} pet={pet} />
         </Link>
       ))}
