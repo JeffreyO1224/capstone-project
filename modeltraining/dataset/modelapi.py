@@ -9,7 +9,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 #initialize fastapi server
 app = FastAPI()
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 #add middleware for cross origin resource sharing (because using different ports)
@@ -34,14 +33,19 @@ data_transforms = transforms.Compose([
 
 #include breeds in order to be able to map prediction with actual breed
 class_names = [
-    "Abyssinian", "Bengal", "Birman", "Bombay", "British_Shorthair", "Egyptian_Mau",
-    "Maine_Coon", "Persian", "Ragdoll", "Russian_Blue", "Siamese", "Sphynx",
-    "American_Bulldog", "American_Pit_Bull_Terrier", "Basset_Hound", "Beagle",
-    "Boxer", "Chihuahua", "English_Cocker_Spaniel", "English_Setter", "German_Shorthaired",
-    "Great_Pyrenees", "Havanese", "Japanese_Chin", "Keeshond", "Leonberger",
-    "Miniature_Pinscher", "Newfoundland", "Pomeranian", "Pug", "Saint_Bernard",
-    "Samoyed", "Scottish_Terrier", "Shiba_Inu", "Staffordshire_Bull_Terrier",
-    "Wheaten_Terrier", "Yorkshire_Terrier"
+    "Abyssinian",                    "American Bulldog",        "American Pit Bull Terrier",
+    "Basset Hound",                  "Beagle",                  "Bengal",
+    "Birman",                        "Bombay",                  "Boxer",
+    "British Shorthair",             "Chihuahua",               "Egyptian Mau",
+    "English Cocker Spaniel",        "English Setter",          "German Shorthaired",
+    "Great Pyrenees",                "Havanese",                "Japanese Chin",
+    "Keeshond",                      "Leonberger",              "Maine Coon",
+    "Miniature Pinscher",            "Newfoundland",            "Persian",
+    "Pomeranian",                    "Pug",                     "Ragdoll",
+    "Russian Blue",                  "Saint Bernard",           "Samoyed",
+    "Scottish Terrier",              "Shiba Inu",               "Siamese",
+    "Sphynx",                        "Staffordshire Bull Terrier", "Wheaten Terrier",
+    "Yorkshire Terrier",
 ]
 #redifining model architecture
 model = torch.load("pet_breed_classifier_full.pth", map_location = device, weights_only = False)
