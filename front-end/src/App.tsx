@@ -10,6 +10,7 @@ import MapPage from "./pages/MapPage/MapPage.tsx";
 import SignUpPage from "./pages/SignUpPage/SignUpPage.tsx";
 import { User } from "./types/pets.ts";
 import { jwtDecode } from "jwt-decode";
+import PetIndvPage from "./pages/PetIndvPage/PetIndvPage.tsx";
 
 interface TokenPayload {
   email: string;
@@ -94,9 +95,10 @@ function App() {
       children: [
         { path: "/", element: <HomePage /> },
         { path: "/login/", element: <LoginPage /> },
-        { path: "/PetExplorationPage/", element: <PetExplorationPage /> },
+        { path: "/petexplore/", element: <PetExplorationPage /> },
         { path: "/petmap/", element: <MapPage /> },
         { path: "/signup/", element: <SignUpPage /> },
+        { path: "/petexplore/:petId", element:<PetIndvPage/> }
       ],
     },
   ]);

@@ -42,7 +42,7 @@ export default function NavBar() {
           )}
         </li>
         <li>
-          <Link to="/PetExplorationPage" className="nav-link">
+          <Link to="/petexplore" className="nav-link">
             Explore
           </Link>
         </li>

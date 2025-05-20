@@ -1,8 +1,9 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState,  } from "react";
 import { setKey, fromLatLng } from "react-geocode";
 import { useAuth } from "../../App";
 import "./FormComponent.css";
+import { useNavigate } from "react-router-dom";
 
 setKey(import.meta.env.VITE_GOOGLE_API_KEY);
 
@@ -23,8 +24,18 @@ export default function FormComponent({closeModal, locationCoordinates}) {
     lon: number;
   } | null>(null);
 
-  if (userName) var { userName } = useAuth().user;
-  else var userName = "";
+  //use this to force refresh the page once the submission is cleared 
+  const navigate = useNavigate();
+
+  //previous error occured because username never existed, so we would always
+  //go into the else condition despite being logged i 
+  //authUser just grabs the user, which we then grab username
+  var authUser = useAuth().user
+  if (authUser) {
+    //grab the username from the authUser
+    var { userName } = authUser;
+    } //otherwise this flag will prevent nonloggedin users from crashing/submitting 
+    else var userName = "";
 
   //populate the coordinates with information from the map page
   useEffect(() => {
@@ -116,6 +127,7 @@ export default function FormComponent({closeModal, locationCoordinates}) {
       console.log("Successfully submitted");
       setError("");
       resetForm();
+      navigate("/petmap")
     } catch (err) {
       console.error(err);
       setError("Failed to submit form");
