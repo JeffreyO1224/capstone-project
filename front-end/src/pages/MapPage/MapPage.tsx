@@ -123,8 +123,6 @@ export default function MapPage() {
   }, []);
   
   const petMarkers = posts ? posts.map((post, index) => {
-    // const img = axios.get(`https://localhost:8080/s3/image/${post.imageUrl}`);
-    // console.log(img);
     const imgUrl = `http://localhost:8080/s3/image/${post.imageUrl}`;
 
     return (

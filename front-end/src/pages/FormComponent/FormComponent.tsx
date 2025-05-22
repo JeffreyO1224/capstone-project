@@ -123,11 +123,12 @@ export default function FormComponent({closeModal, locationCoordinates}) {
         formData
       );
 
-      //const result = await response.json();
       console.log("Successfully submitted");
       setError("");
       resetForm();
       navigate("/petmap")
+      closeModal();
+      window.location.reload();
     } catch (err) {
       console.error(err);
       setError("Failed to submit form");
