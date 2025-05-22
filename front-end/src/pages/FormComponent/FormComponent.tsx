@@ -128,6 +128,7 @@ export default function FormComponent({closeModal, locationCoordinates}) {
       setError("");
       resetForm();
       navigate("/petmap")
+      closeModal();
     } catch (err) {
       console.error(err);
       setError("Failed to submit form");
