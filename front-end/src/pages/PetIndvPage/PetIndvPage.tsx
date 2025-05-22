@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { PetPost } from "../../types/pets";
 import { MapContainer, TileLayer, Marker, Circle } from "react-leaflet";
+import { useAuth } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 export default function PetIndvPage() {
   //grab the petId from the parameters (the link from the postId)
@@ -11,6 +13,17 @@ export default function PetIndvPage() {
   const { petId } = useParams();
   //save the pet post
   const [post, setPost] = useState<PetPost | null>(null);
+
+  //use a navigator after delete to refresh 
+  const navigate = useNavigate();
+
+    //authUser just grabs the user, which we then grab username to see if the petid belongs to them
+    var authUser = useAuth().user
+    if (authUser) {
+      //grab the username from the authUser
+      var { userName } = authUser;
+      } //otherwise this flag will prevent nonloggedin users from crashing/submitting 
+      else var userName = "";
 
   //use the id we got from the params to send a requet to our backend
   //which will retrieve the pet post by its id 
@@ -21,6 +34,18 @@ export default function PetIndvPage() {
       setPost(response.data.specificPost);
       console.log(response.data);
     } catch (err) {
+      console.log(err);
+    }
+  };
+
+  //this function allows ONLY the creator of the post to delete the petpost
+  const deletePetPost = async () => {
+    try {
+      const response = await axios.delete(`http://localhost:8080/post/delete/${petId}`);
+      console.log(response.data)
+      navigate("/petexplore")
+    }
+    catch(err){
       console.log(err);
     }
   };
@@ -50,7 +75,14 @@ export default function PetIndvPage() {
               />
             ) : (
               <p>No image available</p>
-            )}
+            )}           
+            <div>
+              {post.userName == userName ? (
+                <button className="delete-button" onClick={deletePetPost}> 
+                    Delete Post
+                </button>
+              ) : (<></>)}
+            </div>
           </div>
 
           <div className="right-column">
