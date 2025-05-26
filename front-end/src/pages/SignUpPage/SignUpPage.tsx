@@ -1,11 +1,12 @@
 import "./SignUpPage.css";
 import sugarglider from "../../assets/sugarglider.png";
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../../App";
 
-export default function SignUpPage () {
-  // these variable states will track the user's input values in the register form 
+export default function SignUpPage() {
+  // these variable states will track the user's input values in the register form
   const [userName, setUserName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -13,30 +14,38 @@ export default function SignUpPage () {
   const [password, setPassword] = useState("");
   // allow us to navigate the user back to home page
   const navigate = useNavigate();
+  //grab the login function from useAuth
+  const { login } = useAuth();
 
-  // handler after user submits the register form 
+  // handler after user submits the register form
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8080/users/register", {
-      user_name: userName,
-      first_name: firstName,
-      last_name: lastName,
-      email,
-      password,
-    });
-    // after submit move to home page
-    navigate("/");
-  }
-
-  catch (error: any) {
-    console.error(
-      "Failed to register", 
-      error.response?.data?.error || error.message);
-    alert(error.response?.data?.error || "Error registaring");
-  }
-};
+      const response = await axios.post(
+        "http://localhost:8080/users/register",
+        {
+          user_name: userName,
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          password,
+        }
+      );
+      // after submit move to home page
+      //login
+      const { user, token } = response.data;
+      //use the login function from the app
+      login(user, token);
+      navigate("/");
+    } catch (error: any) {
+      console.error(
+        "Failed to register",
+        error.response?.data?.error || error.message
+      );
+      alert(error.response?.data?.error || "Error registaring");
+    }
+  };
 
   return (
     <div className="signup-container">
@@ -139,5 +148,4 @@ export default function SignUpPage () {
       </div>
     </div>
   );
-
 }
